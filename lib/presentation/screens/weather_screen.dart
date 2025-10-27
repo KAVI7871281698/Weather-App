@@ -13,7 +13,7 @@ class WeatherScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        backgroundColor: const Color.from(alpha: 1, red: 0.69, green: 0.016, blue: 0.918),
+        backgroundColor: const Color.fromRGBO(176, 4, 234, 1), // fixed RGBO syntax
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -56,6 +56,12 @@ class WeatherScreen extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: controller,
+                    textInputAction: TextInputAction.search, // 🔹 Changes keyboard button to "Search"
+                    onSubmitted: (value) {
+                      // 🔹 Called when user presses "Enter" or "Search"
+                      FocusScope.of(context).unfocus();
+                      viewModel.loadWeather(value.trim());
+                    },
                     decoration: InputDecoration(
                       hintText: 'Enter city name (e.g. Coimbatore)',
                       hintStyle: TextStyle(color: Colors.grey.shade600),
@@ -142,14 +148,14 @@ class WeatherScreen extends StatelessWidget {
                             const SizedBox(width: 6),
                             Text(
                               'Humidity: ${viewModel.weather!.humidity}%',
-                              style: const TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 10),
                             ),
                             const SizedBox(width: 20),
                             const Icon(Icons.air, color: Colors.deepPurple),
                             const SizedBox(width: 6),
                             Text(
                               'Wind: ${viewModel.weather!.windSpeed} m/s',
-                              style: const TextStyle(fontSize: 11),
+                              style: const TextStyle(fontSize: 10),
                             ),
                           ],
                         ),
